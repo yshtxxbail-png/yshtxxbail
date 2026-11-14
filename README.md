@@ -1,88 +1,97 @@
-# <div align='center'>PouCode</div>
+<div align='center'>yshtxxbail</div>
 
 <p align="center">
 
-  <img src="https://files.catbox.moe/i497x5.jpg" width="180" alt="Pou"/>
+  <img src="https://files.catbox.moe/i497x5.jpg" width="180" alt="yshtxxbail"/>
 
 </p>
 
 <div align='center'>
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![GitHub](https://img.shields.io/badge/source-GitHub-black.svg)](https://github.com/pou-code/Baileys)
-[![Node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](package.json)
+https://img.shields.io/badge/license-MIT-blue.svg
+https://img.shields.io/badge/source-GitHub-black.svg
+https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg
 
-A WebSockets library for interacting with WhatsApp Web, maintained under the **PouCode** brand.
-This project is a fork built on top of [Baileys](https://github.com/WhiskeySockets/Baileys) by WhiskeySockets.
+A WebSockets library for interacting with WhatsApp Web, maintained under the yshtxxbail brand.
+This project is a fork built on top of Baileys by WhiskeySockets.
 
 </div>
 
 ---
 
-## Installation
+Installation
+
 Install directly from GitHub (not published on npm registry):
+
 ```bash
-npm install github:pou-code/Baileys
+npm install github:yshtxxbail/Baileys
 ```
 
-Or add it to your `package.json` manually:
+Or add it to your package.json manually:
+
 ```json
 "dependencies": {
-  "@poucode/baileys": "github:pou-code/Baileys"
+  "@whiskeysockets/baileys": "github:yshtxxbail/Baileys"
 }
 ```
 
-Already have a bot built on the original `@whiskeysockets/baileys` and don't want to change every
-`require`/`import` in your codebase? Alias the dependency name instead, so the original package
+Already have a bot built on the original @whiskeysockets/baileys and don't want to change every
+require/import in your codebase? Alias the dependency name instead, so the original package
 name points to this fork:
+
 ```json
 "dependencies": {
-  "@whiskeysockets/baileys": "github:pou-code/Baileys"
+  "@whiskeysockets/baileys": "github:yshtxxbail/Baileys"
 }
 ```
-With this alias, keep using `require('@whiskeysockets/baileys')` in your code as-is — npm will
+
+With this alias, keep using require('@whiskeysockets/baileys') in your code as-is — npm will
 resolve it to this fork under the hood.
 
 You can also pin to a specific branch or commit:
+
 ```bash
-npm install github:pou-code/Baileys#main
+npm install github:yshtxxbail/Baileys#main
 ```
 
-## Import
+Import
+
 ```javascript
 const {
   default: makeWASocket,
   // other exports
-} = require('@poucode/baileys');
+} = require('@whiskeysockets/baileys');
 ```
 
 ---
 
-# Connecting To WhatsApp
+Connecting To WhatsApp
 
-## With QR Code
+With QR Code
+
 ```javascript
 const {
   default: makeWASocket,
   Browsers
-} = require('@poucode/baileys');
+} = require('@whiskeysockets/baileys');
 
 const client = makeWASocket({
-  browser: Browsers.poucode('Chrome'),
+  browser: Browsers.yshtxxbail('Chrome'),
   printQRInTerminal: true
 });
 ```
 
-## Connect With Pairing Code
+Connect With Pairing Code
+
 ```javascript
 const {
   default: makeWASocket,
   fetchLatestWAWebVersion,
   Browsers
-} = require('@poucode/baileys');
+} = require('@yshtxxbail/baileys');
 
 const client = makeWASocket({
-  browser: Browsers.poucode('Chrome'),
+  browser: Browsers.yshtxxbail('Chrome'),
   printQRInTerminal: false,
   version: await fetchLatestWAWebVersion(),
   aiLabel: false // set true to show an AI label on messages sent by the bot
@@ -95,12 +104,13 @@ const code = await client.requestPairingCode(number.trim()); // or (number, "YYY
 console.log("Your pairing code: " + code);
 ```
 
-# Storing Data
+Storing Data
+
 ```javascript
 const {
   default: makeWASocket,
   makeInMemoryStore
-} = require('@poucode/baileys');
+} = require('@yshtxxbail/baileys');
 const pino = require('pino');
 
 const store = makeInMemoryStore({
@@ -116,48 +126,49 @@ client.ev.on('contacts.upsert', () => {
 });
 ```
 
-# Sending Messages
+Sending Messages
 
-## Send / relay a message with `noSelfSync`
+Send / relay a message with noSelfSync
 
-`noSelfSync` is a `relayMessage` option (private/1-on-1 chats only) that controls whether the
-message is also synced to your **other own linked devices** (other phones/WhatsApp Web sessions
+noSelfSync is a relayMessage option (private/1-on-1 chats only) that controls whether the
+message is also synced to your other own linked devices (other phones/WhatsApp Web sessions
 logged into the same account). It does not affect delivery to the recipient.
 
-- **`noSelfSync: true`** — the message is sent to the recipient as normal, but is **not** synced
+· noSelfSync: true — the message is sent to the recipient as normal, but is not synced
   to your other own devices. Useful when you don't want a message to show up on your other
   linked sessions (e.g. silent/automated sends from a bot account).
-- **`noSelfSync: false`** (default) — normal behavior. The message is sent to the recipient and
+· noSelfSync: false (default) — normal behavior. The message is sent to the recipient and
   also synced to your other own devices, so it appears everywhere you're logged in, just like
   sending from the official WhatsApp app.
 
 ```javascript
 // Sent to the recipient, but NOT synced to your other devices
 await client.relayMessage(m.chat, {
-  conversation: "Hello from PouCode"
+  conversation: "Hello from yshtxxbail"
 }, {
   noSelfSync: true
 });
 
 // Sent to the recipient AND synced to your other devices (default behavior)
 await client.relayMessage(m.chat, {
-  conversation: "Hello from PouCode"
+  conversation: "Hello from yshtxxbail"
 }, {
   noSelfSync: false
 });
 
 // Also works through sendMessage
 await client.sendMessage(m.chat, {
-  text: "Hello from PouCode"
+  text: "Hello from yshtxxbail"
 }, {
   noSelfSync: true
 });
 ```
 
-## Send an orderMessage
+Send an orderMessage
+
 ```javascript
 const fs = require('fs');
-const thumbnail = fs.readFileSync('./pouthumb.jpg');
+const thumbnail = fs.readFileSync('./yshtxxbailthumb.jpg');
 
 await client.sendMessage(m.chat, {
   thumbnail,
@@ -168,7 +179,8 @@ await client.sendMessage(m.chat, {
 }, { quoted: m });
 ```
 
-## Send a pollResultSnapshotMessage
+Send a pollResultSnapshotMessage
+
 ```javascript
 await client.sendMessage(m.chat, {
   pollResultMessage: {
@@ -185,13 +197,14 @@ await client.sendMessage(m.chat, {
 });
 ```
 
-## Send a productMessage
+Send a productMessage
+
 ```javascript
 await client.relayMessage(m.chat, {
   productMessage: {
     title: "Product.pdf",
     description: "Product description",
-    thumbnail: { url: "./pouthumb.jpg" },
+    thumbnail: { url: "./yshtxxbailthumb.jpg" },
     productId: "EXAMPLE_TOKEN",
     retailerId: "EXAMPLE_RETAILER_ID",
     url: "https://example.com",
@@ -209,10 +222,11 @@ await client.relayMessage(m.chat, {
 });
 ```
 
-## Send an interactiveMessage
+Send an interactiveMessage
+
 ```javascript
 await client.sendMessage(m.chat, {
-  image: { url: "./pouimg.jpg" },
+  image: { url: "./yshtxxbailimg.jpg" },
   text: "body",
   title: "title", // required when sending media
   footer: "footer",
@@ -232,7 +246,8 @@ await client.sendMessage(m.chat, {
 });
 ```
 
-## Send a member label
+Send a member label
+
 ```javascript
 await client.sendMessage(m.chat, {
   groupLabel: {
@@ -241,7 +256,8 @@ await client.sendMessage(m.chat, {
 });
 ```
 
-## Send a message to group members
+Send a message to group members
+
 ```javascript
 await client.sendMessageMembers(m.chat, {
   extendedTextMessage: {
@@ -250,9 +266,10 @@ await client.sendMessageMembers(m.chat, {
 }, {});
 ```
 
-# Simple sendMessage Helpers
+Simple sendMessage Helpers
 
-## Send text
+Send text
+
 ```javascript
 await client.sendText(m.chat, "Hello!", {
   contextInfo: {
@@ -270,9 +287,10 @@ await client.sendText(m.chat, "Hello!", {
 });
 ```
 
-## Send image
+Send image
+
 ```javascript
-await client.sendImage(m.chat, { url: "./pouimg.jpg" }, "Caption", {
+await client.sendImage(m.chat, { url: "./yshtxxbailimg.jpg" }, "Caption", {
   contextInfo: {
     mentionedJid: [m.chat]
   }
@@ -288,7 +306,8 @@ await client.sendImage(m.chat, { url: "./pouimg.jpg" }, "Caption", {
 });
 ```
 
-## Send video
+Send video
+
 ```javascript
 await client.sendVideo(m.chat, { url: "./video.mp4" }, "Caption", {
   contextInfo: {
@@ -306,9 +325,10 @@ await client.sendVideo(m.chat, { url: "./video.mp4" }, "Caption", {
 });
 ```
 
-## Send audio
+Send audio
+
 ```javascript
-await client.sendAudio(m.chat, { url: "./pouaudio.mp3" }, {
+await client.sendAudio(m.chat, { url: "./yshtxxbailaudio.mp3" }, {
   contextInfo: {
     mentionedJid: [m.chat]
   }
@@ -324,7 +344,8 @@ await client.sendAudio(m.chat, { url: "./pouaudio.mp3" }, {
 });
 ```
 
-## Send location
+Send location
+
 ```javascript
 await client.sendLocation(m.chat, "Caption", 90.0, 90.0, "https://example.com", "1234567890", {
   contextInfo: {
@@ -342,7 +363,8 @@ await client.sendLocation(m.chat, "Caption", 90.0, 90.0, "https://example.com", 
 });
 ```
 
-## Send poll
+Send poll
+
 ```javascript
 await client.sendPoll(m.chat, "Pick one", ["1", "2", "3"], true, {
   contextInfo: {
@@ -360,7 +382,8 @@ await client.sendPoll(m.chat, "Pick one", ["1", "2", "3"], true, {
 });
 ```
 
-## Send quiz
+Send quiz
+
 ```javascript
 await client.sendQuiz(m.chat, "Quiz question", ["1", "2", "3"], "2", {
   contextInfo: {
@@ -378,7 +401,8 @@ await client.sendQuiz(m.chat, "Quiz question", ["1", "2", "3"], "2", {
 });
 ```
 
-## Send status mention
+Send status mention
+
 ```javascript
 await client.statusMention(m.chat, {
   extendedTextMessage: {
@@ -389,18 +413,18 @@ await client.statusMention(m.chat, {
 
 ---
 
-# Credits
+Credits
 
-PouCode is a fork of [Baileys](https://github.com/WhiskeySockets/Baileys), originally created by
-[Adhiraj Singh](https://github.com/adiwajshing) and maintained by the WhiskeySockets community.
+yshtxxbail is a fork of Baileys, originally created by
+Adhiraj Singh and maintained by the WhiskeySockets community.
 All credit for the underlying protocol implementation goes to the original authors and contributors.
-See [LICENSE](LICENSE) for the full license text and copyright notices.
+See LICENSE for the full license text and copyright notices.
 
-# Contributing
+Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on reporting issues and submitting pull requests.
+See CONTRIBUTING.md for guidelines on reporting issues and submitting pull requests.
 
-# Disclaimer
+Disclaimer
 
-This is **not** an official WhatsApp product. Use of this library to send bulk or unsolicited messages
+This is not an official WhatsApp product. Use of this library to send bulk or unsolicited messages
 may violate WhatsApp's Terms of Service and can result in your number being banned. Use responsibly.
